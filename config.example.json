@@ -1,0 +1,14 @@
+{
+  "direction": "bidirectional",
+  "spotify_playlist_id": "REPLACE_WITH_SPOTIFY_PLAYLIST_ID",
+  "youtube_music_playlist_id": "REPLACE_WITH_YOUTUBE_MUSIC_PLAYLIST_ID",
+
+  "spotify_client_id": "REPLACE_WITH_SPOTIFY_CLIENT_ID",
+  "spotify_client_secret": "REPLACE_WITH_SPOTIFY_CLIENT_SECRET",
+  "spotify_redirect_uri": "http://127.0.0.1:8888/callback",
+
+  "secrets_dir": ".secrets",
+  "match_threshold": 0.72,
+  "delete_missing": false,
+  "batch_size": 50
+}

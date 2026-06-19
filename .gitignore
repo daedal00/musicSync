@@ -1,0 +1,16 @@
+# Local credentials and tokens
+.secrets/
+config.json
+
+# Runtime output
+logs/
+*.log
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+.ruff_cache/
+
+# macOS
+.DS_Store
