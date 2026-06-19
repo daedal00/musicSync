@@ -78,7 +78,19 @@ Apply changes:
 uv run sync_music.py sync
 ```
 
-## Cron
+## GitHub Actions scheduled sync
+
+The repo includes `.github/workflows/sync.yml`, which can run the sync hourly on GitHub Actions.
+
+Add these repository secrets in GitHub → Settings → Secrets and variables → Actions:
+
+- `MUSICSYNC_CONFIG_JSON`: contents of local `config.json`
+- `MUSICSYNC_SPOTIFY_TOKEN_CACHE`: contents of local `.secrets/spotify_token.cache`
+- `MUSICSYNC_YTMUSIC_BROWSER_JSON`: contents of local `.secrets/ytmusic_browser.json`
+
+Then run **Sync music playlists** manually from the Actions tab once to test it. After that, it runs hourly.
+
+## Local cron
 
 Install an hourly cron job:
 
