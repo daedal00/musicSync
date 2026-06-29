@@ -12,7 +12,6 @@ Default behavior is **add-only bidirectional sync**: songs found on either playl
    - YouTube Music reuses browser request headers via `ytmusicapi` and stores them locally.
 3. Run `uv run sync_music.py sync --dry-run` to inspect proposed changes.
 4. Run `uv run sync_music.py sync` manually.
-5. Install the cron wrapper after the dry run looks correct.
 
 ## Requirements
 
@@ -43,7 +42,15 @@ Authenticate Spotify:
 uv run sync_music.py setup-spotify
 ```
 
-Authenticate YouTube Music:
+Authenticate YouTube Music with OAuth:
+
+```bash
+uv run sync_music.py setup-ytmusic-oauth
+```
+
+Follow the browser/device-code prompt. The refreshable OAuth token is written to `.secrets/ytmusic_oauth.json`.
+
+If OAuth is unavailable, you can fall back to browser request headers:
 
 1. Open <https://music.youtube.com> in a browser where you are logged in.
 2. Open DevTools → Network.
@@ -62,7 +69,7 @@ If you are not on macOS, save the copied headers to a file and run:
 uv run sync_music.py setup-ytmusic --headers-file headers.txt
 ```
 
-Local credentials are written under `.secrets/` and ignored by git.
+Local credentials are written under `.secrets/` and ignored by git. In automatic mode, the script uses whichever YouTube Music auth file is newer: OAuth or browser headers.
 
 ## Run
 
@@ -77,34 +84,6 @@ Apply changes:
 ```bash
 uv run sync_music.py sync
 ```
-
-## GitHub Actions scheduled sync
-
-The repo includes `.github/workflows/sync.yml`, which can run the sync hourly on GitHub Actions.
-
-Add these repository secrets in GitHub → Settings → Secrets and variables → Actions:
-
-- `MUSICSYNC_CONFIG_JSON`: contents of local `config.json`
-- `MUSICSYNC_SPOTIFY_TOKEN_CACHE`: contents of local `.secrets/spotify_token.cache`
-- `MUSICSYNC_YTMUSIC_BROWSER_JSON`: contents of local `.secrets/ytmusic_browser.json`
-
-Then run **Sync music playlists** manually from the Actions tab once to test it. After that, it runs hourly.
-
-## Local cron
-
-Install an hourly cron job:
-
-```bash
-./scripts/install_cron.sh
-```
-
-Or choose a schedule, for example every 30 minutes:
-
-```bash
-./scripts/install_cron.sh "*/30 * * * *"
-```
-
-Logs go to `logs/music-sync.log`. The runner uses a simple lock directory so overlapping cron runs exit safely.
 
 ## Safety notes
 
